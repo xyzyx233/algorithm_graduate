@@ -4,6 +4,7 @@
 using namespace std;
 
 int A[5000000];
+
 class sortt{
 private:
     int n,k;
@@ -20,9 +21,9 @@ public:
         return  0;
     }
     void quciksort(){
-        qqsort(A,0,n-1);
+        qqsort(A,0,n-1,k);
     }
-    void qqsort(int A[],int low,int high){
+    void qqsort(int A[],int low,int high,int k){
         int last;
         if(low<high)    //当数组中的元素个数大于1时，才进行操作
         {
@@ -35,8 +36,11 @@ public:
             }
 
             swap(A,last,low);//基准元与界限交换，这样的话，基准元两边就是一边大于，一边小于；
-            qqsort(A,low,last-1);  //对左区间递归排序
-            qqsort(A,last+1,high);//对右区间递归排序
+            if(k!=0){
+                qqsort(A,low,last-1,k);  //对左区间递归排序
+            }else{
+                qqsort(A,last+1,high,k);//对右区间递归排序
+            }
         }
     }
     void swap(int s[],int i,int j)
