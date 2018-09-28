@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -9,40 +10,38 @@ class sortt{
 private:
     int n,k;
 public:
-    sortt(int n,int k,int* Aa){
-//        memset(A,0,sizeof(int)*5000000);
+    sortt(int n,int k){
         this->k=k-1;
         this->n=n;
-        for(int i=0;i<n;i++){
-            A[i]=Aa[i];
-        }
-    }
-    int kthmax(){
-        return  0;
     }
     void quciksort(){
         qqsort(A,0,n-1,k);
     }
     void qqsort(int A[],int low,int high,int k){
         int last;
-        if(low<high)    //当数组中的元素个数大于1时，才进行操作
+        if(low==high){
+            printf("%d", A[low]);
+            return;
+        }
+        if(low<high)
         {
-            last=low;   //选取第一个元素作为基准
-            //把小于基准元与大于基准元的分开，last记录它们分开的界限
+            last=low;
+
             for(int i=low+1;i<=high;i++)
             {
                 if(A[i]>A[low])
                     swap(A,++last,i);
             }
 
-            swap(A,last,low);//基准元与界限交换，这样的话，基准元两边就是一边大于，一边小于；
+            swap(A,last,low);
             if(k==last){
+                printf("%d", A[last]);
                 return;
-            }else if(k<last) {
-                qqsort(A, low, last - 1, k);  //对左区间递归排序
-            } else {
-                qqsort(A, last + 1, high, k - last);//对右区间递归排序
             }
+            if(k<last)
+            qqsort(A, low, last - 1, k);
+            if(k>last)
+            qqsort(A, last + 1, high, k);
         }
     }
     void swap(int s[],int i,int j)
@@ -53,19 +52,19 @@ public:
         s[j]=temp;
     }
     void show(){
-        cout << A[k] << endl;
-        for(int i=0;i<n;i++){
-            cout << A[i] << ' ';
-        }
-        cout << endl;
+        printf("%d",A[k]);
     }
 };
 int main() {
-    int X[8]={1, 3, 5, 7, 4, 2, 6, 8};
-    int kth=2;
-    sortt s= sortt(8,kth,X);
+//    int X[10]={1, 3, 5, 7, 4, 2, 6, 8, 34, 457};
+    int kth=0,n=0;
+    scanf("%d %d", &n,&kth);
+    for(int i=0;i<n;i++){
+//        A[i]=X[i];
+        scanf("%d", &A[i]);
+    }
+    sortt s= sortt(n,kth);
     s.quciksort();
-    s.show();
-//    std::cout << "Hello, World!" << std::endl;
+//    s.show();
     return 0;
 }
