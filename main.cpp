@@ -11,7 +11,7 @@ private:
 public:
     sortt(int n,int k,int* Aa){
 //        memset(A,0,sizeof(int)*5000000);
-        this->k=k;
+        this->k=k-1;
         this->n=n;
         for(int i=0;i<n;i++){
             A[i]=Aa[i];
@@ -31,15 +31,17 @@ public:
             //把小于基准元与大于基准元的分开，last记录它们分开的界限
             for(int i=low+1;i<=high;i++)
             {
-                if(A[i]<A[low])
+                if(A[i]>A[low])
                     swap(A,++last,i);
             }
 
             swap(A,last,low);//基准元与界限交换，这样的话，基准元两边就是一边大于，一边小于；
-            if(k!=0){
-                qqsort(A,low,last-1,k);  //对左区间递归排序
-            }else{
-                qqsort(A,last+1,high,k);//对右区间递归排序
+            if(k==last){
+                return;
+            }else if(k<last) {
+                qqsort(A, low, last - 1, k);  //对左区间递归排序
+            } else {
+                qqsort(A, last + 1, high, k - last);//对右区间递归排序
             }
         }
     }
@@ -59,8 +61,9 @@ public:
     }
 };
 int main() {
-    int X[5]={1,4,3,2,5};
-    sortt s= sortt(5,2,X);
+    int X[8]={1, 3, 5, 7, 4, 2, 6, 8};
+    int kth=2;
+    sortt s= sortt(8,kth,X);
     s.quciksort();
     s.show();
 //    std::cout << "Hello, World!" << std::endl;
